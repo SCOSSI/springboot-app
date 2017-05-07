@@ -1,19 +1,13 @@
 import br.com.springbootapp.controller.LivroController;
 import br.com.springbootapp.model.entity.Livro;
-import br.com.springbootapp.repository.LivroRepository;
 import br.com.springbootapp.service.LivroService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import stub.LivroStub;
@@ -23,8 +17,8 @@ import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +48,7 @@ public class LivroControllerTest {
         List<Livro> livroList = new ArrayList<>();
         livroList.add(livroStub);
         livroList.add(livroStub);
-        Mockito.when(livroService.findAllLivros()).thenReturn(livroList);
+        when(livroService.findAllLivros()).thenReturn(livroList);
         mockMvc.perform(get("/livro/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -65,7 +59,7 @@ public class LivroControllerTest {
 
     @Test
     public void testListAllLivrosNoContent() throws Exception {
-        Mockito.when(livroService.findAllLivros()).thenReturn(new ArrayList<Livro>());
+        when(livroService.findAllLivros()).thenReturn(new ArrayList<Livro>());
         mockMvc.perform(get("/livro/"))
                 .andExpect(status().isNoContent());
     }

@@ -22,9 +22,11 @@ import java.util.List;
  */
 @Repository
 public class LivroRepository {
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    public LivroRepository(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Transactional(readOnly=true)
     public List<Livro> findAll() {
